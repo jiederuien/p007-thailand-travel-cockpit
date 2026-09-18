@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>曼谷芭提雅 2026｜朋友查看版行程</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f5f7fb,#10131a);--fg:light-dark(#182230,#eef3fb);--muted:light-dark(#596579,#aab7ca);--surface:light-dark(#fff,#171c25);--line:light-dark(#d9e0eb,#303a49);--accent:light-dark(#1769e0,#73a6ff);--soft:light-dark(#eaf2ff,#192942);--warn:light-dark(#fff4df,#3a2b13);--warnfg:light-dark(#784a00,#ffd58a);--d1:#e45756;--d2:#3a86ff;--d3:#8338ec;--d4:#fb8500;--d5:#0a9396;--d6:#2a9d8f;--d7:#6c757d;--d8:#bc6c25;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.55}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg)}main{max-width:1100px;margin:0 auto;padding:24px 18px 48px}h1{font-size:clamp(24px,4vw,36px);line-height:1.2;margin:0 0 8px;font-weight:600}h2{font-size:20px;margin:0 0 12px;font-weight:600}p{margin:0 0 10px}.sub{color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin:12px 0 18px;color:var(--muted);font-size:14px}.warn{background:var(--warn);color:var(--warnfg);padding:11px 14px;border-radius:10px;margin:0 0 20px}.controls{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}.controls button{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}.controls button[aria-pressed="true"]{background:var(--soft);border-color:var(--accent);color:var(--accent);font-weight:600}.map-section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:22px}.map-wrap{position:relative;width:100%;aspect-ratio:2 / 1;min-height:290px}.map-wrap svg{display:block;width:100%;height:100%;overflow:visible}.map-title{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin:0 0 8px}.map-title small{color:var(--muted);font-weight:400}.grid{stroke:var(--line);stroke-width:1;opacity:.65}.axis{fill:var(--muted);font-size:12px}.route{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.26;transition:opacity .2s}.route.is-active{opacity:.9}.point{stroke:var(--surface);stroke-width:2;transition:opacity .2s}.point.is-active{opacity:1}.point.is-muted{opacity:.22}.point-label{fill:var(--fg);font-size:12px;font-weight:500;paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}.map-note{font-size:13px;color:var(--muted);margin-top:4px}.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px;font-size:13px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:5px}.dot{width:9px;height:9px;border-radius:50%;display:inline-block}.days{display:grid;gap:14px}.day-card{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--day-color);border-radius:10px;padding:15px 16px}.day-card[hidden]{display:none}.day-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:8px}.day-head h3{font-size:18px;margin:0;font-weight:600}.day-head .date{color:var(--muted);font-size:14px}.route-name{font-size:14px;color:var(--accent);margin-bottom:9px}.timeline{margin:0;padding-left:20px}.timeline li{padding:3px 0}.timeline li::marker{color:var(--day-color)}.extra{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}.extra strong{color:var(--fg)}footer{margin-top:22px;color:var(--muted);font-size:13px}.source{overflow-wrap:anywhere}a{color:var(--accent)}@media(max-width:560px){main{padding:18px 12px 34px}.map-wrap{aspect-ratio:1.15 / 1;min-height:300px}.point-label{font-size:11px}.day-card{padding:13px 12px}.controls button{padding:7px 10px}}
+@media print{body{background:#fff;color:#182230}main{max-width:none;padding:0}h1{font-size:25px}.warn{border:1px solid #b98116}.map-section,.day-card{background:#fff;border-color:#cfd6e2}.controls,.map-note,.source a{display:none}.map-wrap{min-height:330px}.day-card[hidden]{display:block}.day-card{break-inside:avoid}.days{gap:10px}.sub,.meta,.legend,footer{color:#596579}}
+</style>
+<style>
+.full-map-intro{color:var(--muted);font-size:14px;margin-bottom:14px}
+.full-map-details{display:grid;gap:14px}
+.full-day,.recommendation-panel{border:1px solid var(--line);border-left:4px solid var(--day-color,var(--accent));border-radius:10px;padding:14px}
+.full-day[hidden],.recommendation-panel[hidden],.recommendation-item[hidden]{display:none}
+.full-day h3,.recommendation-panel h3{font-size:18px;margin:0 0 4px}
+.full-day-date{color:var(--muted);font-size:13px;margin-bottom:12px}
+.detail-heading{font-size:14px;font-weight:600;margin:14px 0 8px}
+.route-details,.point-grid,.recommendation-grid{display:grid;gap:10px}
+.route-detail,.point-detail{border:1px solid var(--line);border-radius:8px;padding:11px 12px;background:color-mix(in srgb,var(--surface) 92%,var(--soft))}
+.route-detail h4,.point-detail h5{font-size:15px;line-height:1.35;margin:0 0 5px}
+.route-body,.point-body{white-space:pre-line;font-size:14px;line-height:1.65}
+.detail-meta{color:var(--muted);font-size:12px;margin-bottom:5px;overflow-wrap:anywhere}
+.recommendation-panel{--day-color:var(--accent);background:var(--soft)}
+.recommendation-panel>p{font-size:13px;color:var(--muted);margin:0 0 10px}
+.media-note{margin-top:14px;padding:11px 12px;border-radius:8px;background:var(--warn);color:var(--warnfg);font-size:13px}
+.detail-hint{color:var(--muted);font-size:13px;margin:10px 0 0}
+@media(min-width:760px){.point-grid,.recommendation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.full-day,.recommendation-panel{break-inside:avoid;background:#fff;border-color:#cfd6e2}.route-detail,.point-detail{background:#fff}.full-map-intro,.detail-hint{color:#596579}}
+</style>
+<style>
+.view-tabs{display:flex;gap:6px;margin:0 0 18px;padding:5px;border:1px solid var(--line);border-radius:12px;background:var(--surface);width:max-content;max-width:100%}
+.view-tabs button{display:flex;align-items:center;gap:7px;font:inherit;border:0;border-radius:8px;padding:8px 13px;background:transparent;color:var(--muted);cursor:pointer}
+.view-tabs button[aria-pressed="true"]{background:var(--soft);color:var(--accent);font-weight:600}
+.view-tabs small{font-size:11px;padding:2px 5px;border-radius:5px;background:var(--warn);color:var(--warnfg);font-weight:600}
+#itinerary-view[hidden],#prep-section[hidden]{display:none}
+.prep-section{margin-bottom:22px}
+.prep-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.55fr);gap:16px;align-items:stretch;margin-bottom:14px}
+.prep-intro,.prep-progress,.prep-group,.prep-source{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.prep-intro{padding:20px 22px;border-left:4px solid #0a9396}
+.prep-intro h2{font-size:24px;margin:5px 0 7px}.prep-intro p{color:var(--muted);font-size:14px;line-height:1.65;margin:0}
+.prep-kicker{font-size:11px;font-weight:700;letter-spacing:.12em;color:#0a9396;text-transform:uppercase}
+.prep-progress{padding:18px 20px;display:flex;flex-direction:column;justify-content:center;background:var(--soft)}
+.prep-progress-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.prep-progress-top strong{font-size:28px;letter-spacing:-.05em}.prep-progress-top span{font-size:12px;color:var(--muted)}
+.progress-track{height:8px;margin:11px 0 8px;border-radius:99px;overflow:hidden;background:rgba(23,105,224,.12)}.progress-fill{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#0a9396,#1769e0);transition:width .2s ease}
+.prep-progress-note{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+.prep-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}.prep-stat{padding:13px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}.prep-stat strong{display:block;font-size:19px}.prep-stat span{display:block;margin-top:2px;color:var(--muted);font-size:11px}.prep-stat.must{border-top:3px solid #e45756}.prep-stat.do{border-top:3px solid #1769e0}.prep-stat.suggest{border-top:3px solid #0a9396}.prep-stat.optional{border-top:3px solid #bc6c25}
+.prep-groups{display:grid;gap:12px}.prep-group{padding:15px 16px}.prep-group-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}.prep-group-head h3{font-size:17px;margin:0}.prep-group-head span{color:var(--muted);font-size:11px}.prep-list{display:grid;gap:7px}.prep-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:9px;align-items:start;padding:9px 10px;border-radius:8px;background:color-mix(in srgb,var(--surface) 86%,var(--soft));transition:background .15s ease}.prep-item:hover{background:var(--soft)}.prep-item.is-done{opacity:.62}.prep-item.is-done .prep-item-title{text-decoration:line-through}.prep-item input{width:17px;height:17px;margin:1px 0;accent-color:#0a9396}.prep-item-title{font-size:13px;font-weight:600;line-height:1.35}.prep-item-detail{margin-top:3px;color:var(--muted);font-size:11px;line-height:1.5}.prep-item-when{padding:3px 6px;border-radius:5px;background:var(--surface);color:var(--muted);font-size:10px;white-space:nowrap}.prep-item-when.must{background:#ffe9e5;color:#b34642}.prep-item-when.do{background:#eaf2ff;color:#1769e0}.prep-item-when.suggest{background:#e4f6f1;color:#08786f}.prep-item-when.optional{background:#fff4df;color:#784a00}
+.prep-source{margin-top:14px;padding:13px 15px;color:var(--muted);font-size:11px;line-height:1.6}.prep-source strong{color:var(--fg)}
+.prep-item-title,.prep-item-detail{display:block}
+@media(max-width:760px){.prep-hero{grid-template-columns:1fr}.prep-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.view-tabs{width:100%}.view-tabs button{flex:1;justify-content:center;padding:8px 7px}.prep-intro{padding:17px 16px}.prep-group{padding:13px 11px}.prep-item{grid-template-columns:22px minmax(0,1fr);gap:7px}.prep-item-when{grid-column:2;justify-self:start;margin-top:-2px}.prep-item-detail{font-size:11px}}
+@media print{.view-tabs,.prep-section{display:block}.prep-section{break-before:page}.prep-item{break-inside:avoid}.prep-progress{background:#fff}.prep-stats{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<main id="friend-view">
+  <header>
+    <h1>曼谷芭提雅 2026｜朋友查看版行程</h1>
+    <p class="sub">9月26日—10月3日｜两人｜曼谷 3 晚 → 芭提雅 3 晚 → 素万那普机场附近 1 晚</p>
+    <div class="meta"><span>当前地图更新：2026-09-09</span><span>不需要 Google 登录</span><span>可直接打印或另存为 PDF</span></div>
+    <div class="warn">⚠️ 这是根据当前 Google 我的地图生成的静态查看版；下方已把有效 D1–D8 的路线说明、点位备注和新增推荐逐条展开。路线线条用于看行程关系，不是实时导航；酒店退房、大巴班次、船班、天气和演出场次仍以出发前/当天确认结果为准。</div>
+  </header>
+  <nav class="view-tabs" aria-label="驾驶舱页签">
+    <button type="button" data-view="itinerary" aria-pressed="true">🗺️ 行程路线</button>
+    <button type="button" data-view="prep" aria-pressed="false">🎒 出行准备 <small>必带优先</small></button>
+  </nav>
+  <section class="prep-section" id="prep-section" hidden aria-labelledby="prep-title">
+    <div class="prep-hero">
+      <div class="prep-intro">
+        <div class="prep-kicker">P-007 · Before you go</div>
+        <h2 id="prep-title">出行准备</h2>
+        <p>把跨天都要用的事项集中在这里；每日行程只保留当天路线。优先完成红色“必带/必做”项目，证件、药品和支付信息不要填写真实号码。</p>
+      </div>
+      <div class="prep-progress" aria-live="polite">
+        <div class="prep-progress-top"><strong id="prep-done-count">0/0</strong><span>已完成清单</span></div>
+        <div class="progress-track"><div class="progress-fill" id="prep-progress-fill"></div></div>
+        <p class="prep-progress-note" id="prep-progress-note">勾选后只保存在当前浏览器，不会上传敏感信息。</p>
+      </div>
+    </div>
+    <div class="prep-stats" id="prep-stats"></div>
+    <div class="prep-groups" id="prep-groups"></div>
+    <div class="prep-source"><strong>状态口径：</strong>行程日期、航班和已订酒店来自当前 P-007 行程资料；TDAC、航空公司行李规则、天气、药品和景点开放安排属于出发前需要再核对的外部规则。<strong>安全边界：</strong>不在驾驶舱保存护照号码、银行卡号、密码、验证码、Token 或 Cookie。</div>
+  </section>
+  <div id="itinerary-view">
+  <nav class="controls" aria-label="选择日期" id="day-controls"></nav>
+  <section class="map-section" aria-labelledby="overview-title">
+    <div class="map-title"><h2 id="overview-title">路线总览</h2><small>香港 → 曼谷 → 芭提雅 → 格兰岛</small></div>
+    <div class="map-wrap"><svg id="route-svg" viewBox="0 0 1000 500" role="img" aria-label="曼谷芭提雅行程路线总览"></svg></div>
+    <p class="map-note">点位和路线来自当前地图导出的 KML；点击上方日期可只看某一天。</p>
+    <div class="legend" id="legend"></div>
+  </section>
+  <section class="days" id="days" aria-live="polite"></section>
+  <section class="map-section" aria-labelledby="full-map-title">
+    <div class="map-title"><h2 id="full-map-title">Google 我的地图全量明细</h2><small id="full-map-count">有效图层 D1–D8</small></div>
+    <p class="full-map-intro">这里按当前地图导出的 KML 展示有效图层的每条路线说明、每个地图点位和新增推荐层。上方日期筛选会同步筛选这部分内容；原始文字只做换行和段落整理，不改变时间、地点、数字或备注。</p>
+    <div id="full-map-details" class="full-map-details"></div>
+    <div class="media-note"><strong>🖼️ 图片资源状态：</strong>本次地图 KML 导出包含点位、路线和文字描述，但没有可直接嵌入的图片文件、图片标签或图片链接。Google 地点照片属于地图网页中的外部内容，不会随 KML 自动带入；因此本页不会把外部搜索图片冒充成 Google 我的地图原图。</div>
+  </section>
+  <footer>
+    <p>数据来源：<span class="source">当前 Google 我的地图“曼谷芭提雅 2026｜7晚总路线图”</span>。生成时间：2026-09-09。</p>
+    <p>朋友查看版不依赖 Google 地图；如果要打开原始 Google 我的地图或其中的 Google 地点照片，仍受 Google 访问条件影响。</p>
+  </footer>
+  </div>
+</main>
+<script>
+const DATA = {"updated":"2026-09-09","map_title":"曼谷芭提雅 2026｜7晚总路线图","map_url":"https://www.google.com/maps/d/edit?hl=zh-CN&mid=1tvgDp8nSLvNpVJGVGxRwLZzovOBNO8U&ll=17.013984158197623%2C107.2037&z=6","points":[{"name":"香港国际机场","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":22.308,"lon":113.9185,"description":"去程：香港快运 UO702｜16:55 起飞。"},{"name":"素万那普国际机场","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"已确认：18:55 抵达。"},{"name":"曼谷萨码拉酒店","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":13.7415607,"lon":100.5585835,"description":""},{"name":"恰图恰周末市场","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7998,"lon":100.5506,"description":"核心景点｜周日安排。"},{"name":"暹罗商圈","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7463,"lon":100.5347,"description":"核心商圈｜泰国本土品牌、潮牌和室内休息。"},{"name":"中央世界购物中心","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7466,"lon":100.5393,"description":"核心商圈｜与暹罗商圈连动。"},{"name":"唐人街／耀华力路（9月27日晚）","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7373794,"lon":100.5129349,"description":"D2购物结束后作为晚餐和夜逛备选，优先乘 MRT 到 Wat Mangkon 再步行。9月28日周一不安排这里的夜市，周一部分街边摊可能休息；具体餐厅等后续按当天Google评分筛选。"},{"name":"D2拍照｜Siam二楼步行天桥（BTS景）","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7456058,"lon":100.5341187,"description":""},{"name":"大皇宫","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.75,"lon":100.4916433,"description":"核心景点｜上午优先。着装、开放时间和门票出发前复核。"},{"name":"卧佛寺","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.7465,"lon":100.4933,"description":"核心景点｜与大皇宫短距离步行。"},{"name":"郑王庙","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.7437,"lon":100.4889,"description":"核心景点｜需要过河，船班和天气待复核。"},{"name":"曼谷东部汽车客运站","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":13.7194,"lon":100.5858,"description":"工作版公共交通节点｜后续按酒店位置确定是否使用。"},{"name":"芭提雅北部汽车客运站","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9538,"lon":100.9055,"description":"到达芭提雅后的陆路交通节点。"},{"name":"真理寺","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.972,"lon":100.8905,"description":"核心景点｜公开评分快照约4.7；门票和开放时间出发前复核。"},{"name":"Terminal 21 芭提雅","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9507,"lon":100.8903,"description":"核心商圈｜公开评分快照约4.6；晚上休息和吃饭候选。"},{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9454224,"lon":100.8865879,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"曼谷萨码拉酒店","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":13.7415607,"lon":100.5585835,"description":""},{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9452133,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"巴厘海码头","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9236,"lon":100.8663,"description":"格兰岛交通节点｜公开评分快照约4.4。"},{"name":"格兰岛纳班码头","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.923,"lon":100.786,"description":"上岛后换乘岛上交通。公共船价格按现场和日期复核。"},{"name":"Tien Beach（天恩海滩）","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9183997,"lon":100.7701531,"description":"正确地点：Google 地图 Tien Beach（Koh Larn），坐标约 12.9184, 100.7702。纳班码头上岛后坐岛上双条车前往；返程按 Tien Beach → 纳班码头 → 公共船/快艇 → 巴厘海码头 → 芭提雅酒店。海况或天气不佳时改为城市/室内行程。"},{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":12.9452133,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"素万那普国际机场","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"10月3日返程机场。"},{"name":"素万那普机场附近住宿区域（待定）","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"最后一晚工作版住宿区域；真实酒店确定后替换。"},{"name":"素万那普国际机场","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"返程：香港快运 UO705｜10:10 起飞。"},{"name":"香港国际机场第一航站楼","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"recommendation":false,"lat":22.308,"lon":113.9185,"description":"14:20 抵达。"},{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.9452969,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"东芭乐园","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.765,"lon":100.934,"description":"南芭提雅热带园林｜营业时间、门票和表演安排待复核。"},{"name":"蒂芙尼秀","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.9558,"lon":100.8895,"description":"芭提雅高评分演出｜建议放在东芭乐园之后，场次和购票渠道待复核。"},{"name":"D2暹罗购物｜TRES.","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7448519,"lon":100.5343967,"description":"建议安排在9月27日D2下午暹罗商圈购物段，与暹罗百丽宫和Pang Cha顺路串联。Google地图评分4.8/5（约481条评价）。"},{"name":"D2暹罗甜品｜Pang Cha","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7476719,"lon":100.5347219,"description":"D2暹罗商圈顺路甜品；Google地图评分4.3/5（约671条评价），可选，不必专程排队。"},{"name":"D3老城后｜ICONSIAM","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7262171,"lon":100.5106291,"description":"建议安排在9月28日D3大皇宫、卧佛寺、郑王庙结束后，下午到傍晚逛水上市集、河景和商场。Google地图评分4.7/5（约5.98万条评价）。"},{"name":"D1晚间候选｜theCOMMONS Thonglor","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7351348,"lon":100.5822318,"description":"建议安排在9月26日抵达、入住和休息后，作为轻松的通罗夜间组合。酒店位置确定后再核交通。Google地图评分4.5/5（约4,982条评价）。"},{"name":"D1晚餐候选｜EASY! buddy","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7351243,"lon":100.5821469,"description":"与theCOMMONS同点位，适合9月26日D1晚间休息后吃饭。Google地图评分4.7/5（约244条评价）。"},{"name":"D1晚间顺路｜Onion","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7308495,"lon":100.5897933,"description":"作为9月26日D1通罗/埃卡迈组合里的买手店顺路点位；酒店位置确定后再确认是否值得专程过去。Google地图评分4.5/5（约318条评价）。"},{"name":"D2购物｜KONVY（Siam Center M层）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7459433,"lon":100.5334757,"description":"D2购物｜美妆店 KONVY。公开资料线索：位于 Siam Center 的 M层；你要找的二楼步行天桥/BTS拍摄点按暹罗商圈动线安排。地图搜索时评分4.2；营业时间、实际楼层和店内库存以目标日现场为准。来源：第一位博主＋公开地点资料。状态：工作版／待核验。"},{"name":"D2逛街＋拍照｜Siam Discovery","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7468291,"lon":100.5313447,"description":"D2逛街＋拍照｜潮牌/设计品牌。重点动作：到二楼步行天桥拍BTS景；M层3号门方向接OneSiam/MBK一带天桥，继续拍曼谷网红天桥。地图搜索时评分4.4；楼层、门号和天桥是否可通行以目标日现场标识为准。状态：工作版／待核验。"},{"name":"D2逛街｜Gentle Woman（Siam Square One 3楼）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7452121,"lon":100.5338857,"description":"D2逛街｜Gentle Woman。优先看 Siam Square One 3楼；官方门店资料也列有 Siam Square 主街店。你可以在三家店里按时间选逛，觉得性价比合适再买。地图搜索时评分4.0；门店营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2逛街｜Matchbox（Siam Square Soi 7）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7442776,"lon":100.5331259,"description":"D2逛街｜Matchbox。位置：Siam Square Soi 7（公开地点地址）。按时间和体力逛一圈，觉得性价比合适再买。地图搜索时评分4.0；门店营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2逛街｜Nineties（Siam Square Soi 2）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7450382,"lon":100.5321262,"description":"D2逛街｜Nineties。位置线索：Siam Square Soi 2（公开地点信息，Plus Code PGWJ+2V6）。按时间和体力逛一圈，觉得性价比合适再买。地图搜索时评分4.0；店名、营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2拍照｜甜甜圈店出口→曼谷网红天桥","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7462259,"lon":100.5306188,"description":"D2拍照｜曼谷网红天桥。路线线索：从暹罗探索购物中心附近的甜甜圈店出口穿出去，先拍天桥和BTS景，再决定是否购买。公开地图将此工作点定位为 OneSiam Skywalk，地图搜索时评分4.6；具体甜甜圈店名、出口和现场通行方向待目标日核对。状态：工作版／待核验。"}],"routes":[{"name":"D1 18:55抵达｜BKK机场→曼谷酒店","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"coords":[[13.69,100.7501],[13.746,100.534]],"description":"9月26日：\n18:55 抵达素万那普机场；\n18:55—20:00 入境、取行李、换少量现金/办理网络；\n20:00—21:00 前往曼谷酒店（优先机场快线+MRT/最后一段Grab；行李多或晚点直接Grab）；\n21:00—21:30 办理入住；\n21:30—22:15 酒店附近简餐或7-Eleven补给；\n22:15 后休息。\n当天不安排远距离景点。\n若入境或交通延误，直接取消晚餐外出。"},{"name":"D2 09:30出发｜恰图恰→暹罗购物→朱拉隆功夜市","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7998,100.5506],[13.7463,100.5347]],"description":"9月27日：\n09:30—10:00 酒店 → 恰图恰（BTS/MRT，按酒店位置选择）；\n10:00—12:30 恰图恰周末市场；\n12:30—13:30 午餐/休息；\n13:30—14:00 前往暹罗；\n14:00—17:30 暹罗商圈（按你这次确定的后半段安排）：\n1. KONVY（Siam Center M层）；\n2. Siam Discovery（潮牌/设计品牌）；\n3. 到二楼步行天桥拍BTS景；\n4. 从甜甜圈店出口接 OneSiam Skywalk，拍曼谷网红天桥；\n5. nineties（Siam Square Soi 2）→ matchbox（Siam Square Soi 7）→ Gentle Woman（Siam Square One 3楼），三家按时间和体力选逛，觉得合适再买。\nTRES、Pang Cha按原工作版保留；本次不额外加入博主前半段的其他商场、Big C、水门市场或四面佛。\n时间不够时优先：KONVY → Siam Discovery＋两个拍照点 → 三家店选逛。\n17:30—18:00 前往朱拉隆功大学一带；\n18:00—20:30 朱拉隆功跳蚤市场＋朱拉隆功夜市；\n20:30 后回酒店。\n唐人街/耀华力路保留为21:00后体力备选，去唐人街就缩短或取消朱拉夜市。\ntheCOMMONS Thonglor、EASY! buddy、Onion不放在抵达当晚，改作本日夜间替代线（替代朱拉夜市/唐人街）。"},{"name":"D2 暹罗广场 → 中央世界（可选）｜步行","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7463,100.5347],[13.7466,100.5393]],"description":"中央世界不是必逛；\n体力充足或下雨时再去。\n购物结束后若去唐人街，建议从暹罗／奇隆方向乘 BTS＋MRT 到 Wat Mangkon，再步行进入耀华力路。"},{"name":"D2细分步行线｜KONVY→Siam Discovery→BTS天桥→OneSiam Skywalk→Nineties→Matchbox→Gentle Woman","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7459433,100.5334757],[13.7468291,100.5313447],[13.7456058,100.5341187],[13.7462259,100.5306188],[13.7450382,100.5321262],[13.7442776,100.5331259],[13.7452476,100.5339717]],"description":"9月27日暹罗商圈细分步行顺序：\n1. KONVY（Siam Center M层）\n2. Siam Discovery\n3. Siam二楼步行天桥（BTS景）\n4. 甜甜圈店出口 → OneSiam Skywalk（曼谷网红天桥）\n5. Nineties（Siam Square Soi 2）\n6. Matchbox（Siam Square Soi 7）\n7. Gentle Woman（Siam Square One 3楼）\n这条线按地图小点绘制，用于查看各点之间的空间关系；商场内部通道、楼层和实际开放入口以当天现场为准。"},{"name":"D3 09:00出发｜大皇宫→卧佛寺→郑王庙→ICONSIAM","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"coords":[[13.75,100.4913],[13.7465,100.4933]],"description":"9月28日：\n09:00—09:40 酒店 → 大皇宫；\n09:40—11:30 大皇宫；\n11:30—12:30 卧佛寺；\n12:30—13:00 老城午餐/休息；\n13:00—13:20 乘摆渡船过河；\n13:20—14:50 郑王庙；\n14:50—15:30 前往ICONSIAM；\n15:30—19:30 ICONSIAM，重点看G层水上市场、手工艺品和顶层河景/鸡尾酒星巴克；\n19:30—20:30 晚餐；\n20:30 后回酒店。\nICONSIAM已并入D3，不再单独占一天。"},{"name":"D3 卧佛寺 → 郑王庙｜过河船","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"coords":[[13.7465,100.4933],[13.7437,100.4889]],"description":"工作版交通方式：\n到河边码头乘短程渡船；\n当日按船班执行。"},{"name":"D4 08:00出发｜大巴→真理寺→Terminal 21","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"coords":[[13.7194,100.5858],[12.9538,100.9055]],"description":"9月29日：\n08:00—08:30 早餐/退房；\n08:30—09:15 Grab 到 Ekkamai 客运站；\n09:30 左右乘大巴前往芭提雅北站，约 2—2.5 小时；\n12:00 左右到达芭提雅北站；\n到达后第一站先去 Mytt Hotel Pattaya，先寄存行李；是否可以提前入住以酒店现场为准；\n行李放好后，再从 Mytt Hotel Pattaya 出发去下一站；\n12:30—13:30 午餐（时间以实际放行李完成为准）；\n13:30—14:15 Mytt Hotel Pattaya → 真理寺；\n14:15—16:45 参观真理寺；\n16:45—17:30 回市区；\n17:30—20:00 Terminal 21 芭提雅，逛商场、室内小吃和拍照；\n20:00 后回 Mytt Hotel Pattaya 休息。\n公共交通优先；\n带行李或大巴衔接不顺时用 Grab。"},{"name":"D4 曼谷→芭提雅：先寄存行李→真理寺→Terminal 21","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"coords":[[12.9538,100.9055],[12.972,100.8905],[12.9507,100.8903],[12.955,100.885]],"description":"曼谷东部汽车客运站 → 芭提雅北部汽车站：\n大巴优先。\n到芭提雅后先去酒店寄存行李，再前往真理寺；\n参观后去 Terminal 21 吃饭/逛街，最后回酒店。\n公共交通不顺时用 Grab。"},{"name":"D5 08:00出发｜巴厘海码头→格兰岛 Tien Beach","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.955,100.885],[12.9236,100.8663]],"description":"9月30日：\n08:00—08:45 Mytt Hotel Pattaya 早餐/准备防晒和现金；\n08:45—09:15 从 Mytt Hotel Pattaya 出发 → 巴厘海码头（Grab/双条车）；\n09:30 左右乘公共船前往纳班码头，约 40—50 分钟，快艇作为备选；\n10:30—16:00 纳班码头 → Tien Beach，海滩、拍照、游泳和水上项目；\n16:00—17:00 返回纳班码头；\n17:00—18:00 公共船回芭提雅；\n18:00 后先回 Mytt Hotel Pattaya 放东西/休息，再安排晚餐/夜市。\nFat Submarine Café 可作为返程后的海景餐厅备选；\n船班、海况和项目价格当天确认，天气不好就取消上岛，改芭提雅市区/按摩。"},{"name":"D5 巴厘海码头 → 格兰岛｜公共船或快艇","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.9236,100.8663],[12.923,100.786]],"description":"公共船更省钱，快艇更省时间；\n最终按天气、集合时间和现场价格选择。"},{"name":"D5 纳班码头 → Tien Beach｜岛上双条车","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.923,100.786],[12.925,100.788]],"description":"去程：\n纳班码头 → Tien Beach，约10—20分钟，按当天岛上接驳/双条车为准。\n返程：\nTien Beach → 纳班码头 → 公共船/快艇 → 巴厘海码头 → 芭提雅酒店；\n返程船班与海况当天确认。"},{"name":"D7 09:00出发｜芭提雅→素万那普机场附近","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"coords":[[12.955,100.885],[13.69,100.7501]],"description":"10月2日：\n09:00—10:00 Mytt Hotel Pattaya 早餐/整理行李/退房准备；\n10:00—10:30 从 Mytt Hotel Pattaya 出发 → 芭提雅北站；\n11:00 左右乘大巴回曼谷东部客运站，约 2—2.5 小时；\n13:30—14:30 前往素万那普机场附近酒店并办理入住；\n15:30—17:30 机场附近商场、咖啡或休息；\n18:00 后晚餐、整理行李，22:00 前休息。\n以机场附近住宿为终点，不再安排远距离景点；\n带行李或堵车时用 Grab。"},{"name":"D8 10:10起飞｜BKK机场→香港","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"coords":[[13.69,100.7501],[22.308,113.9185]],"description":"10月3日：\n06:30 起床；\n07:00—07:20 早餐；\n07:20—07:40 退房、整理行李；\n07:40—08:10 前往素万那普机场；\n08:10—08:50 值机、托运行李；\n08:50—09:20 安检和出境；\n09:20—09:50 前往登机口；\n10:10 乘坐UO705飞往香港。\n机场附近酒店出发时间按实际车程调整，目标是至少提前2小时到机场。"},{"name":"D6 09:00出发｜东芭乐园→蒂芙尼秀","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"coords":[[12.955,100.885],[12.765,100.934],[12.9558,100.8895]],"description":"10月1日：\n09:00—09:45 从 Mytt Hotel Pattaya 出发 → 东芭乐园（两人建议包车/Grab 往返，公共交通不稳定）；\n10:00—13:00 逛东芭乐园；\n13:00—14:00 园内或附近午餐；\n14:00—15:00 回芭提雅市区，再回 Mytt Hotel Pattaya；\n15:00—17:30 Mytt Hotel Pattaya 休息/泳池/按摩；\n17:30—18:15 提前晚餐；\n18:30—19:40 蒂芙尼秀，具体场次提前确认；\n19:40 后合照/回 Mytt Hotel Pattaya。\n若不看秀，改为 Terminal 21 或海边散步。"}],"days":[{"key":"D1","date":"9月26日","title":"抵达曼谷","short":"抵达→入住","points":[{"name":"香港国际机场","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":22.308,"lon":113.9185,"description":"去程：香港快运 UO702｜16:55 起飞。"},{"name":"素万那普国际机场","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"已确认：18:55 抵达。"},{"name":"曼谷萨码拉酒店","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"recommendation":false,"lat":13.7415607,"lon":100.5585835,"description":""}],"routes":[{"name":"D1 18:55抵达｜BKK机场→曼谷酒店","day":"D1","folder":"D1｜9月26日｜18:55抵达曼谷｜机场→入住","hidden":false,"coords":[[13.69,100.7501],[13.746,100.534]],"description":"9月26日：\n18:55 抵达素万那普机场；\n18:55—20:00 入境、取行李、换少量现金/办理网络；\n20:00—21:00 前往曼谷酒店（优先机场快线+MRT/最后一段Grab；行李多或晚点直接Grab）；\n21:00—21:30 办理入住；\n21:30—22:15 酒店附近简餐或7-Eleven补给；\n22:15 后休息。\n当天不安排远距离景点。\n若入境或交通延误，直接取消晚餐外出。"}],"main_description":"9月26日：\n18:55 抵达素万那普机场；\n18:55—20:00 入境、取行李、换少量现金/办理网络；\n20:00—21:00 前往曼谷酒店（优先机场快线+MRT/最后一段Grab；行李多或晚点直接Grab）；\n21:00—21:30 办理入住；\n21:30—22:15 酒店附近简餐或7-Eleven补给；\n22:15 后休息。\n当天不安排远距离景点。\n若入境或交通延误，直接取消晚餐外出。","main_route":"D1 18:55抵达｜BKK机场→曼谷酒店"},{"key":"D2","date":"9月27日","title":"恰图恰→暹罗→朱拉隆功夜市","short":"市场→购物→夜市","points":[{"name":"恰图恰周末市场","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7998,"lon":100.5506,"description":"核心景点｜周日安排。"},{"name":"暹罗商圈","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7463,"lon":100.5347,"description":"核心商圈｜泰国本土品牌、潮牌和室内休息。"},{"name":"中央世界购物中心","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7466,"lon":100.5393,"description":"核心商圈｜与暹罗商圈连动。"},{"name":"唐人街／耀华力路（9月27日晚）","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7373794,"lon":100.5129349,"description":"D2购物结束后作为晚餐和夜逛备选，优先乘 MRT 到 Wat Mangkon 再步行。9月28日周一不安排这里的夜市，周一部分街边摊可能休息；具体餐厅等后续按当天Google评分筛选。"},{"name":"D2拍照｜Siam二楼步行天桥（BTS景）","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"recommendation":false,"lat":13.7456058,"lon":100.5341187,"description":""}],"routes":[{"name":"D2 09:30出发｜恰图恰→暹罗购物→朱拉隆功夜市","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7998,100.5506],[13.7463,100.5347]],"description":"9月27日：\n09:30—10:00 酒店 → 恰图恰（BTS/MRT，按酒店位置选择）；\n10:00—12:30 恰图恰周末市场；\n12:30—13:30 午餐/休息；\n13:30—14:00 前往暹罗；\n14:00—17:30 暹罗商圈（按你这次确定的后半段安排）：\n1. KONVY（Siam Center M层）；\n2. Siam Discovery（潮牌/设计品牌）；\n3. 到二楼步行天桥拍BTS景；\n4. 从甜甜圈店出口接 OneSiam Skywalk，拍曼谷网红天桥；\n5. nineties（Siam Square Soi 2）→ matchbox（Siam Square Soi 7）→ Gentle Woman（Siam Square One 3楼），三家按时间和体力选逛，觉得合适再买。\nTRES、Pang Cha按原工作版保留；本次不额外加入博主前半段的其他商场、Big C、水门市场或四面佛。\n时间不够时优先：KONVY → Siam Discovery＋两个拍照点 → 三家店选逛。\n17:30—18:00 前往朱拉隆功大学一带；\n18:00—20:30 朱拉隆功跳蚤市场＋朱拉隆功夜市；\n20:30 后回酒店。\n唐人街/耀华力路保留为21:00后体力备选，去唐人街就缩短或取消朱拉夜市。\ntheCOMMONS Thonglor、EASY! buddy、Onion不放在抵达当晚，改作本日夜间替代线（替代朱拉夜市/唐人街）。"},{"name":"D2 暹罗广场 → 中央世界（可选）｜步行","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7463,100.5347],[13.7466,100.5393]],"description":"中央世界不是必逛；\n体力充足或下雨时再去。\n购物结束后若去唐人街，建议从暹罗／奇隆方向乘 BTS＋MRT 到 Wat Mangkon，再步行进入耀华力路。"},{"name":"D2细分步行线｜KONVY→Siam Discovery→BTS天桥→OneSiam Skywalk→Nineties→Matchbox→Gentle Woman","day":"D2","folder":"D2｜9月27日｜恰图恰→暹罗购物→朱拉隆功夜市","hidden":false,"coords":[[13.7459433,100.5334757],[13.7468291,100.5313447],[13.7456058,100.5341187],[13.7462259,100.5306188],[13.7450382,100.5321262],[13.7442776,100.5331259],[13.7452476,100.5339717]],"description":"9月27日暹罗商圈细分步行顺序：\n1. KONVY（Siam Center M层）\n2. Siam Discovery\n3. Siam二楼步行天桥（BTS景）\n4. 甜甜圈店出口 → OneSiam Skywalk（曼谷网红天桥）\n5. Nineties（Siam Square Soi 2）\n6. Matchbox（Siam Square Soi 7）\n7. Gentle Woman（Siam Square One 3楼）\n这条线按地图小点绘制，用于查看各点之间的空间关系；商场内部通道、楼层和实际开放入口以当天现场为准。"}],"main_description":"9月27日：\n09:30—10:00 酒店 → 恰图恰（BTS/MRT，按酒店位置选择）；\n10:00—12:30 恰图恰周末市场；\n12:30—13:30 午餐/休息；\n13:30—14:00 前往暹罗；\n14:00—17:30 暹罗商圈（按你这次确定的后半段安排）：\n1. KONVY（Siam Center M层）；\n2. Siam Discovery（潮牌/设计品牌）；\n3. 到二楼步行天桥拍BTS景；\n4. 从甜甜圈店出口接 OneSiam Skywalk，拍曼谷网红天桥；\n5. nineties（Siam Square Soi 2）→ matchbox（Siam Square Soi 7）→ Gentle Woman（Siam Square One 3楼），三家按时间和体力选逛，觉得合适再买。\nTRES、Pang Cha按原工作版保留；本次不额外加入博主前半段的其他商场、Big C、水门市场或四面佛。\n时间不够时优先：KONVY → Siam Discovery＋两个拍照点 → 三家店选逛。\n17:30—18:00 前往朱拉隆功大学一带；\n18:00—20:30 朱拉隆功跳蚤市场＋朱拉隆功夜市；\n20:30 后回酒店。\n唐人街/耀华力路保留为21:00后体力备选，去唐人街就缩短或取消朱拉夜市。\ntheCOMMONS Thonglor、EASY! buddy、Onion不放在抵达当晚，改作本日夜间替代线（替代朱拉夜市/唐人街）。","main_route":"D2 09:30出发｜恰图恰→暹罗购物→朱拉隆功夜市"},{"key":"D3","date":"9月28日","title":"大皇宫→三寺→ICONSIAM","short":"老城→河岸→商场","points":[{"name":"大皇宫","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.75,"lon":100.4916433,"description":"核心景点｜上午优先。着装、开放时间和门票出发前复核。"},{"name":"卧佛寺","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.7465,"lon":100.4933,"description":"核心景点｜与大皇宫短距离步行。"},{"name":"郑王庙","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"recommendation":false,"lat":13.7437,"lon":100.4889,"description":"核心景点｜需要过河，船班和天气待复核。"},{"name":"D2暹罗购物｜TRES.","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7448519,"lon":100.5343967,"description":"建议安排在9月27日D2下午暹罗商圈购物段，与暹罗百丽宫和Pang Cha顺路串联。Google地图评分4.8/5（约481条评价）。"},{"name":"D2暹罗甜品｜Pang Cha","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7476719,"lon":100.5347219,"description":"D2暹罗商圈顺路甜品；Google地图评分4.3/5（约671条评价），可选，不必专程排队。"},{"name":"D3老城后｜ICONSIAM","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7262171,"lon":100.5106291,"description":"建议安排在9月28日D3大皇宫、卧佛寺、郑王庙结束后，下午到傍晚逛水上市集、河景和商场。Google地图评分4.7/5（约5.98万条评价）。"},{"name":"D1晚间候选｜theCOMMONS Thonglor","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7351348,"lon":100.5822318,"description":"建议安排在9月26日抵达、入住和休息后，作为轻松的通罗夜间组合。酒店位置确定后再核交通。Google地图评分4.5/5（约4,982条评价）。"},{"name":"D1晚餐候选｜EASY! buddy","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7351243,"lon":100.5821469,"description":"与theCOMMONS同点位，适合9月26日D1晚间休息后吃饭。Google地图评分4.7/5（约244条评价）。"},{"name":"D1晚间顺路｜Onion","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7308495,"lon":100.5897933,"description":"作为9月26日D1通罗/埃卡迈组合里的买手店顺路点位；酒店位置确定后再确认是否值得专程过去。Google地图评分4.5/5（约318条评价）。"},{"name":"D2购物｜KONVY（Siam Center M层）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7459433,"lon":100.5334757,"description":"D2购物｜美妆店 KONVY。公开资料线索：位于 Siam Center 的 M层；你要找的二楼步行天桥/BTS拍摄点按暹罗商圈动线安排。地图搜索时评分4.2；营业时间、实际楼层和店内库存以目标日现场为准。来源：第一位博主＋公开地点资料。状态：工作版／待核验。"},{"name":"D2逛街＋拍照｜Siam Discovery","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7468291,"lon":100.5313447,"description":"D2逛街＋拍照｜潮牌/设计品牌。重点动作：到二楼步行天桥拍BTS景；M层3号门方向接OneSiam/MBK一带天桥，继续拍曼谷网红天桥。地图搜索时评分4.4；楼层、门号和天桥是否可通行以目标日现场标识为准。状态：工作版／待核验。"},{"name":"D2逛街｜Gentle Woman（Siam Square One 3楼）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7452121,"lon":100.5338857,"description":"D2逛街｜Gentle Woman。优先看 Siam Square One 3楼；官方门店资料也列有 Siam Square 主街店。你可以在三家店里按时间选逛，觉得性价比合适再买。地图搜索时评分4.0；门店营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2逛街｜Matchbox（Siam Square Soi 7）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7442776,"lon":100.5331259,"description":"D2逛街｜Matchbox。位置：Siam Square Soi 7（公开地点地址）。按时间和体力逛一圈，觉得性价比合适再买。地图搜索时评分4.0；门店营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2逛街｜Nineties（Siam Square Soi 2）","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7450382,"lon":100.5321262,"description":"D2逛街｜Nineties。位置线索：Siam Square Soi 2（公开地点信息，Plus Code PGWJ+2V6）。按时间和体力逛一圈，觉得性价比合适再买。地图搜索时评分4.0；店名、营业状态、营业时间和库存以目标日现场为准。状态：工作版／待核验。"},{"name":"D2拍照｜甜甜圈店出口→曼谷网红天桥","day":"D3","folder":"新增推荐｜已并入D2/D3（D1抵达夜不安排）","hidden":false,"recommendation":true,"lat":13.7462259,"lon":100.5306188,"description":"D2拍照｜曼谷网红天桥。路线线索：从暹罗探索购物中心附近的甜甜圈店出口穿出去，先拍天桥和BTS景，再决定是否购买。公开地图将此工作点定位为 OneSiam Skywalk，地图搜索时评分4.6；具体甜甜圈店名、出口和现场通行方向待目标日核对。状态：工作版／待核验。"}],"routes":[{"name":"D3 09:00出发｜大皇宫→卧佛寺→郑王庙→ICONSIAM","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"coords":[[13.75,100.4913],[13.7465,100.4933]],"description":"9月28日：\n09:00—09:40 酒店 → 大皇宫；\n09:40—11:30 大皇宫；\n11:30—12:30 卧佛寺；\n12:30—13:00 老城午餐/休息；\n13:00—13:20 乘摆渡船过河；\n13:20—14:50 郑王庙；\n14:50—15:30 前往ICONSIAM；\n15:30—19:30 ICONSIAM，重点看G层水上市场、手工艺品和顶层河景/鸡尾酒星巴克；\n19:30—20:30 晚餐；\n20:30 后回酒店。\nICONSIAM已并入D3，不再单独占一天。"},{"name":"D3 卧佛寺 → 郑王庙｜过河船","day":"D3","folder":"D3｜9月28日｜大皇宫→三寺→ICONSIAM","hidden":false,"coords":[[13.7465,100.4933],[13.7437,100.4889]],"description":"工作版交通方式：\n到河边码头乘短程渡船；\n当日按船班执行。"}],"main_description":"9月28日：\n09:00—09:40 酒店 → 大皇宫；\n09:40—11:30 大皇宫；\n11:30—12:30 卧佛寺；\n12:30—13:00 老城午餐/休息；\n13:00—13:20 乘摆渡船过河；\n13:20—14:50 郑王庙；\n14:50—15:30 前往ICONSIAM；\n15:30—19:30 ICONSIAM，重点看G层水上市场、手工艺品和顶层河景/鸡尾酒星巴克；\n19:30—20:30 晚餐；\n20:30 后回酒店。\nICONSIAM已并入D3，不再单独占一天。","main_route":"D3 09:00出发｜大皇宫→卧佛寺→郑王庙→ICONSIAM"},{"key":"D4","date":"9月29日","title":"曼谷 → 芭提雅","short":"换城市→真理寺→Terminal 21","points":[{"name":"曼谷东部汽车客运站","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":13.7194,"lon":100.5858,"description":"工作版公共交通节点｜后续按酒店位置确定是否使用。"},{"name":"芭提雅北部汽车客运站","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9538,"lon":100.9055,"description":"到达芭提雅后的陆路交通节点。"},{"name":"真理寺","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.972,"lon":100.8905,"description":"核心景点｜公开评分快照约4.7；门票和开放时间出发前复核。"},{"name":"Terminal 21 芭提雅","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9507,"lon":100.8903,"description":"核心商圈｜公开评分快照约4.6；晚上休息和吃饭候选。"},{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":12.9454224,"lon":100.8865879,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"曼谷萨码拉酒店","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"recommendation":false,"lat":13.7415607,"lon":100.5585835,"description":""}],"routes":[{"name":"D4 08:00出发｜大巴→真理寺→Terminal 21","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"coords":[[13.7194,100.5858],[12.9538,100.9055]],"description":"9月29日：\n08:00—08:30 早餐/退房；\n08:30—09:15 Grab 到 Ekkamai 客运站；\n09:30 左右乘大巴前往芭提雅北站，约 2—2.5 小时；\n12:00 左右到达芭提雅北站；\n到达后第一站先去 Mytt Hotel Pattaya，先寄存行李；是否可以提前入住以酒店现场为准；\n行李放好后，再从 Mytt Hotel Pattaya 出发去下一站；\n12:30—13:30 午餐（时间以实际放行李完成为准）；\n13:30—14:15 Mytt Hotel Pattaya → 真理寺；\n14:15—16:45 参观真理寺；\n16:45—17:30 回市区；\n17:30—20:00 Terminal 21 芭提雅，逛商场、室内小吃和拍照；\n20:00 后回 Mytt Hotel Pattaya 休息。\n公共交通优先；\n带行李或大巴衔接不顺时用 Grab。"},{"name":"D4 曼谷→芭提雅：先寄存行李→真理寺→Terminal 21","day":"D4","folder":"D4｜9月29日｜曼谷 → 芭提雅","hidden":false,"coords":[[12.9538,100.9055],[12.972,100.8905],[12.9507,100.8903],[12.955,100.885]],"description":"曼谷东部汽车客运站 → 芭提雅北部汽车站：\n大巴优先。\n到芭提雅后先去酒店寄存行李，再前往真理寺；\n参观后去 Terminal 21 吃饭/逛街，最后回酒店。\n公共交通不顺时用 Grab。"}],"main_description":"9月29日：\n08:00—08:30 早餐/退房；\n08:30—09:15 Grab 到 Ekkamai 客运站；\n09:30 左右乘大巴前往芭提雅北站，约 2—2.5 小时；\n12:00 左右到达芭提雅北站；\n到达后第一站先去 Mytt Hotel Pattaya，先寄存行李；是否可以提前入住以酒店现场为准；\n行李放好后，再从 Mytt Hotel Pattaya 出发去下一站；\n12:30—13:30 午餐（时间以实际放行李完成为准）；\n13:30—14:15 Mytt Hotel Pattaya → 真理寺；\n14:15—16:45 参观真理寺；\n16:45—17:30 回市区；\n17:30—20:00 Terminal 21 芭提雅，逛商场、室内小吃和拍照；\n20:00 后回 Mytt Hotel Pattaya 休息。\n公共交通优先；\n带行李或大巴衔接不顺时用 Grab。","main_route":"D4 08:00出发｜大巴→真理寺→Terminal 21"},{"key":"D5","date":"9月30日","title":"格兰岛一日游","short":"巴厘海→Tien Beach","points":[{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9452133,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"巴厘海码头","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9236,"lon":100.8663,"description":"格兰岛交通节点｜公开评分快照约4.4。"},{"name":"格兰岛纳班码头","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.923,"lon":100.786,"description":"上岛后换乘岛上交通。公共船价格按现场和日期复核。"},{"name":"Tien Beach（天恩海滩）","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"recommendation":false,"lat":12.9183997,"lon":100.7701531,"description":"正确地点：Google 地图 Tien Beach（Koh Larn），坐标约 12.9184, 100.7702。纳班码头上岛后坐岛上双条车前往；返程按 Tien Beach → 纳班码头 → 公共船/快艇 → 巴厘海码头 → 芭提雅酒店。海况或天气不佳时改为城市/室内行程。"}],"routes":[{"name":"D5 08:00出发｜巴厘海码头→格兰岛 Tien Beach","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.955,100.885],[12.9236,100.8663]],"description":"9月30日：\n08:00—08:45 Mytt Hotel Pattaya 早餐/准备防晒和现金；\n08:45—09:15 从 Mytt Hotel Pattaya 出发 → 巴厘海码头（Grab/双条车）；\n09:30 左右乘公共船前往纳班码头，约 40—50 分钟，快艇作为备选；\n10:30—16:00 纳班码头 → Tien Beach，海滩、拍照、游泳和水上项目；\n16:00—17:00 返回纳班码头；\n17:00—18:00 公共船回芭提雅；\n18:00 后先回 Mytt Hotel Pattaya 放东西/休息，再安排晚餐/夜市。\nFat Submarine Café 可作为返程后的海景餐厅备选；\n船班、海况和项目价格当天确认，天气不好就取消上岛，改芭提雅市区/按摩。"},{"name":"D5 巴厘海码头 → 格兰岛｜公共船或快艇","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.9236,100.8663],[12.923,100.786]],"description":"公共船更省钱，快艇更省时间；\n最终按天气、集合时间和现场价格选择。"},{"name":"D5 纳班码头 → Tien Beach｜岛上双条车","day":"D5","folder":"D5｜9月30日｜格兰岛一日游","hidden":false,"coords":[[12.923,100.786],[12.925,100.788]],"description":"去程：\n纳班码头 → Tien Beach，约10—20分钟，按当天岛上接驳/双条车为准。\n返程：\nTien Beach → 纳班码头 → 公共船/快艇 → 巴厘海码头 → 芭提雅酒店；\n返程船班与海况当天确认。"}],"main_description":"9月30日：\n08:00—08:45 Mytt Hotel Pattaya 早餐/准备防晒和现金；\n08:45—09:15 从 Mytt Hotel Pattaya 出发 → 巴厘海码头（Grab/双条车）；\n09:30 左右乘公共船前往纳班码头，约 40—50 分钟，快艇作为备选；\n10:30—16:00 纳班码头 → Tien Beach，海滩、拍照、游泳和水上项目；\n16:00—17:00 返回纳班码头；\n17:00—18:00 公共船回芭提雅；\n18:00 后先回 Mytt Hotel Pattaya 放东西/休息，再安排晚餐/夜市。\nFat Submarine Café 可作为返程后的海景餐厅备选；\n船班、海况和项目价格当天确认，天气不好就取消上岛，改芭提雅市区/按摩。","main_route":"D5 08:00出发｜巴厘海码头→格兰岛 Tien Beach"},{"key":"D6","date":"10月1日","title":"芭提雅南线自然景点","short":"东芭乐园→蒂芙尼秀","points":[{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.9452969,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"东芭乐园","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.765,"lon":100.934,"description":"南芭提雅热带园林｜营业时间、门票和表演安排待复核。"},{"name":"蒂芙尼秀","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"recommendation":false,"lat":12.9558,"lon":100.8895,"description":"芭提雅高评分演出｜建议放在东芭乐园之后，场次和购票渠道待复核。"}],"routes":[{"name":"D6 09:00出发｜东芭乐园→蒂芙尼秀","day":"D6","folder":"D6｜10月1日｜芭提雅南线自然景点","hidden":false,"coords":[[12.955,100.885],[12.765,100.934],[12.9558,100.8895]],"description":"10月1日：\n09:00—09:45 从 Mytt Hotel Pattaya 出发 → 东芭乐园（两人建议包车/Grab 往返，公共交通不稳定）；\n10:00—13:00 逛东芭乐园；\n13:00—14:00 园内或附近午餐；\n14:00—15:00 回芭提雅市区，再回 Mytt Hotel Pattaya；\n15:00—17:30 Mytt Hotel Pattaya 休息/泳池/按摩；\n17:30—18:15 提前晚餐；\n18:30—19:40 蒂芙尼秀，具体场次提前确认；\n19:40 后合照/回 Mytt Hotel Pattaya。\n若不看秀，改为 Terminal 21 或海边散步。"}],"main_description":"10月1日：\n09:00—09:45 从 Mytt Hotel Pattaya 出发 → 东芭乐园（两人建议包车/Grab 往返，公共交通不稳定）；\n10:00—13:00 逛东芭乐园；\n13:00—14:00 园内或附近午餐；\n14:00—15:00 回芭提雅市区，再回 Mytt Hotel Pattaya；\n15:00—17:30 Mytt Hotel Pattaya 休息/泳池/按摩；\n17:30—18:15 提前晚餐；\n18:30—19:40 蒂芙尼秀，具体场次提前确认；\n19:40 后合照/回 Mytt Hotel Pattaya。\n若不看秀，改为 Terminal 21 或海边散步。","main_route":"D6 09:00出发｜东芭乐园→蒂芙尼秀"},{"key":"D7","date":"10月2日","title":"芭提雅 → 素万那普机场附近","short":"返程缓冲夜","points":[{"name":"Mytt Hotel Pattaya（芭提雅入住酒店）","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":12.9452133,"lon":100.8866308,"description":"酒店｜已确认\nMytt Hotel Pattaya。\n入住：2026年9月29日；离店：2026年10月2日。\n地址：10 Moo 9 North Pattaya Beach Road, T. Nongprue, A. Banglamung, Chonburi, Thailand。\nD4到店；D5、D6住宿期间；D7退房后前往机场附近。"},{"name":"素万那普国际机场","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"10月3日返程机场。"},{"name":"素万那普机场附近住宿区域（待定）","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"最后一晚工作版住宿区域；真实酒店确定后替换。"}],"routes":[{"name":"D7 09:00出发｜芭提雅→素万那普机场附近","day":"D7","folder":"D7｜10月2日｜芭提雅 → 曼谷机场附近","hidden":false,"coords":[[12.955,100.885],[13.69,100.7501]],"description":"10月2日：\n09:00—10:00 Mytt Hotel Pattaya 早餐/整理行李/退房准备；\n10:00—10:30 从 Mytt Hotel Pattaya 出发 → 芭提雅北站；\n11:00 左右乘大巴回曼谷东部客运站，约 2—2.5 小时；\n13:30—14:30 前往素万那普机场附近酒店并办理入住；\n15:30—17:30 机场附近商场、咖啡或休息；\n18:00 后晚餐、整理行李，22:00 前休息。\n以机场附近住宿为终点，不再安排远距离景点；\n带行李或堵车时用 Grab。"}],"main_description":"10月2日：\n09:00—10:00 Mytt Hotel Pattaya 早餐/整理行李/退房准备；\n10:00—10:30 从 Mytt Hotel Pattaya 出发 → 芭提雅北站；\n11:00 左右乘大巴回曼谷东部客运站，约 2—2.5 小时；\n13:30—14:30 前往素万那普机场附近酒店并办理入住；\n15:30—17:30 机场附近商场、咖啡或休息；\n18:00 后晚餐、整理行李，22:00 前休息。\n以机场附近住宿为终点，不再安排远距离景点；\n带行李或堵车时用 Grab。","main_route":"D7 09:00出发｜芭提雅→素万那普机场附近"},{"key":"D8","date":"10月3日","title":"曼谷 → 香港返程","short":"BKK→香港","points":[{"name":"素万那普国际机场","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"recommendation":false,"lat":13.69,"lon":100.7501,"description":"返程：香港快运 UO705｜10:10 起飞。"},{"name":"香港国际机场第一航站楼","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"recommendation":false,"lat":22.308,"lon":113.9185,"description":"14:20 抵达。"}],"routes":[{"name":"D8 10:10起飞｜BKK机场→香港","day":"D8","folder":"D8｜10月3日｜曼谷 → 香港","hidden":false,"coords":[[13.69,100.7501],[22.308,113.9185]],"description":"10月3日：\n06:30 起床；\n07:00—07:20 早餐；\n07:20—07:40 退房、整理行李；\n07:40—08:10 前往素万那普机场；\n08:10—08:50 值机、托运行李；\n08:50—09:20 安检和出境；\n09:20—09:50 前往登机口；\n10:10 乘坐UO705飞往香港。\n机场附近酒店出发时间按实际车程调整，目标是至少提前2小时到机场。"}],"main_description":"10月3日：\n06:30 起床；\n07:00—07:20 早餐；\n07:20—07:40 退房、整理行李；\n07:40—08:10 前往素万那普机场；\n08:10—08:50 值机、托运行李；\n08:50—09:20 安检和出境；\n09:20—09:50 前往登机口；\n10:10 乘坐UO705飞往香港。\n机场附近酒店出发时间按实际车程调整，目标是至少提前2小时到机场。","main_route":"D8 10:10起飞｜BKK机场→香港"}]};
+const COLORS = {D1:'var(--d1)',D2:'var(--d2)',D3:'var(--d3)',D4:'var(--d4)',D5:'var(--d5)',D6:'var(--d6)',D7:'var(--d7)',D8:'var(--d8)'};
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('route-svg');
+const controls = document.getElementById('day-controls');
+const cards = document.getElementById('days');
+const legend = document.getElementById('legend');
+const fullDetails = document.getElementById('full-map-details');
+const fullCount = document.getElementById('full-map-count');
+let selected = 'all';
+
+const PREP_ITEMS = [
+  {id:'passport',group:'出发前先办',label:'护照原件',detail:'每人 1 本；入境时有效期至少还有 6 个月，按本次 9 月 26 日入境计算，建议有效至 2027 年 3 月 26 日以后。',priority:'must',when:'全程'},
+  {id:'tdac',group:'出发前先办',label:'TDAC 电子入境卡',detail:'每人 1 份；9 月 26 日入境，最早 9 月 24 日办理，英文填写后保存邮件、PDF 或截图。',priority:'do',when:'9/24 起'},
+  {id:'flight-out',group:'出发前先办',label:'去程机票 UO702',detail:'香港 → 曼谷；9 月 26 日 16:55 起飞、18:55 抵达 BKK。',priority:'must',when:'D1'},
+  {id:'flight-back',group:'出发前先办',label:'返程机票 UO705',detail:'曼谷 → 香港；10 月 3 日 10:10 起飞。',priority:'must',when:'D8'},
+  {id:'hotel-orders',group:'出发前先办',label:'三段酒店订单',detail:'Samala Hotel Bangkok、Mytt Hotel Pattaya、PP Garden Home；建议离线保存订单。',priority:'must',when:'全程'},
+  {id:'bank-card',group:'出发前先办',label:'境外可用银行卡',detail:'主卡 + 备用卡，分开放；出发前确认境外支付和短信验证，不在此页填写卡号。',priority:'must',when:'全程'},
+  {id:'esim',group:'出发前先办',label:'泰国 eSIM / 漫游',detail:'每人 1 份；保留中国卡接收验证码，抵达后再切换数据线路。',priority:'do',when:'抵达前'},
+  {id:'apps',group:'出发前先办',label:'Grab、Google Maps、翻译工具',detail:'提前安装并确认能打开；把三段酒店英文名和地址保存到收藏或离线备忘。',priority:'do',when:'出发前'},
+  {id:'fixed-medicine',group:'出发前先办',label:'固定用药',detail:'按医嘱携带并多留 2—3 天余量；保持原包装，处方或医生说明随身。',priority:'must',when:'全程'},
+  {id:'insurance',group:'出发前先办',label:'旅行保险信息',detail:'建议包含医疗、意外和行李延误；保存保单号和客服入口，但不要在驾驶舱写敏感号码。',priority:'suggest',when:'全程'},
+  {id:'phone-copy',group:'随身小包',label:'手机、护照副本和重要订单',detail:'护照信息页、机票和酒店订单各留一份离线副本；原件和手机随身，不放托运行李。',priority:'must',when:'每日'},
+  {id:'cash',group:'随身小包',label:'泰铢现金',detail:'建议先准备约 ฿3,000—5,000 小额现金用于机场、交通、船票和小摊；这是工作建议，不是官方强制金额。',priority:'suggest',when:'前 1—2 天'},
+  {id:'powerbank',group:'随身小包',label:'充电宝',detail:'按香港快运规则：每人最多 2 个、每个不超过 100Wh；只能随身，不托运、不放头顶行李架，飞行中不使用。',priority:'must',when:'飞行'},
+  {id:'daily-meds',group:'随身小包',label:'当天需要的药品、纸巾和小水',detail:'把当天用量放随身包；液体和药品按航空安检及泰国入境规则整理。',priority:'suggest',when:'每日'},
+  {id:'emergency',group:'随身小包',label:'紧急电话',detail:'泰国旅游警察 1155、报警 191、急救 1669；中国外交部全球领保热线 +86-10-12308。',priority:'do',when:'全程'},
+  {id:'quick-dry',group:'衣物与鞋',label:'速干短袖、短裤和薄长裤',detail:'泰国 9 月末炎热潮湿；轻便、易干即可，不必带太多套。',priority:'suggest',when:'全程'},
+  {id:'temple-clothes',group:'衣物与鞋',label:'寺庙着装',detail:'大皇宫、寺庙准备有袖上衣和遮膝长裤或长裙；不要只带背心、短裤或过于暴露的衣服。',priority:'must',when:'D3'},
+  {id:'walking-shoes',group:'衣物与鞋',label:'舒适步行鞋',detail:'大皇宫、三寺、暹罗和夜市都会走路；不要在出发前临时穿新鞋。',priority:'must',when:'全程'},
+  {id:'sandals',group:'衣物与鞋',label:'凉鞋或沙滩拖鞋',detail:'用于酒店泳池、海滩和洗浴；最好选择防滑款。',priority:'suggest',when:'D5/D6'},
+  {id:'sun-jacket',group:'衣物与鞋',label:'薄长袖或防晒外套',detail:'用于海岛防晒、商场空调和车内降温。',priority:'suggest',when:'D2/D5/D6'},
+  {id:'rain',group:'衣物与鞋',label:'折叠伞或轻便雨衣',detail:'9 月末仍是雨季，带一把轻便的即可；不要为此带厚重雨具。',priority:'suggest',when:'雨天'},
+  {id:'swimsuit',group:'泳池与格兰岛',label:'泳裤 / 泳衣',detail:'每人建议 2 套，方便在格兰岛、Mytt 泳池和酒店洗浴后替换。',priority:'must',when:'D5/D6'},
+  {id:'goggles',group:'泳池与格兰岛',label:'泳镜',detail:'每人 1 副；你计划在格兰岛和酒店泳池使用。',priority:'must',when:'D5/D6'},
+  {id:'waterproof-phone',group:'泳池与格兰岛',label:'防水手机袋和干湿分离袋',detail:'海边、船上和泳池使用；湿泳衣不要直接塞进行李。',priority:'must',when:'D5/D6'},
+  {id:'rashguard',group:'泳池与格兰岛',label:'防晒衣或水母衣',detail:'建议长时间在海边活动时使用，尤其是晴天上岛。',priority:'suggest',when:'D5'},
+  {id:'seasickness',group:'泳池与格兰岛',label:'晕车 / 晕船药',detail:'按说明准备，D5 上船前再决定是否使用；海况不好时优先取消上岛。',priority:'optional',when:'D5'},
+  {id:'adapter',group:'电子与洗护',label:'万能转换插头',detail:'泰国常见电压为 220V/50Hz；转换插头只改变插脚形状，不改变电压。',priority:'suggest',when:'全程'},
+  {id:'hairdryer',group:'电子与洗护',label:'自用吹风机',detail:'先看铭牌是否支持 220—240V、50Hz 或双电压；如果只支持 110V，不要直接插泰国插座。',priority:'must',when:'酒店'},
+  {id:'charger',group:'电子与洗护',label:'手机充电头和备用充电线',detail:'每人 1 套，另带 1 根备用线；睡前给手机和充电宝充满。',priority:'must',when:'全程'},
+  {id:'toiletries',group:'电子与洗护',label:'洗护用品与防晒霜',detail:'随身液体单瓶不超过 100ml，放进透明 1L 袋；大瓶洗护用品放托运行李。',priority:'suggest',when:'飞行'},
+  {id:'insect',group:'电子与洗护',label:'防蚊液、创可贴、补液盐',detail:'按平时安全使用的品种准备小份；户外、海岛和天气闷热时更有用。',priority:'suggest',when:'全程'},
+  {id:'d5-check',group:'当天提醒',label:'D5 格兰岛：现金、晕船药、备用干衣',detail:'出发前确认船班、海况和天气；公共船更省钱，快艇只作备选。',priority:'do',when:'9/30'},
+  {id:'d6-check',group:'当天提醒',label:'D6 芭提雅：泳池用品和演出安排',detail:'泳衣、泳镜、防晒用品放在容易拿的位置；蒂芙尼秀场次和交通出发前复核。',priority:'do',when:'10/1'},
+  {id:'d7-check',group:'当天提醒',label:'D7 退房：检查湿衣物、充电线和护照',detail:'离开 Mytt Hotel Pattaya 前做一次房间检查，再前往 PP Garden Home。',priority:'do',when:'10/2'},
+  {id:'d8-check',group:'当天提醒',label:'D8 返程：至少提前 2 小时到 BKK',detail:'UO705 10:10 起飞；按酒店到机场实际车程反推出发时间，出发前重新确认航班和航站楼。',priority:'do',when:'10/3'},
+  {id:'medicine-check',group:'不要直接带',label:'含麻醉 / 精神成分药品先查活性成分',detail:'普通个人用药也要保持原包装；受控药品可能需要泰国 FDA 许可，不确定就先核查。',priority:'do',when:'出发前'},
+  {id:'restricted',group:'不要直接带',label:'不带无标签散装药和含大麻类草本产品',detail:'无法确认成分、用途或入境规则的物品不要临时塞进行李。',priority:'do',when:'入境'}
+];
+
+const PREP_GROUPS = [
+  {name:'出发前先办',note:'不能到机场才补的事项'},
+  {name:'随身小包',note:'原件、支付、通信和飞行必需品'},
+  {name:'衣物与鞋',note:'按曼谷、芭提雅和雨季安排'},
+  {name:'泳池与格兰岛',note:'D5 海岛与 D6 酒店泳池'},
+  {name:'电子与洗护',note:'充电、吹风机和安检液体'},
+  {name:'当天提醒',note:'只在对应日期执行'},
+  {name:'不要直接带',note:'不确定就先核查成分和规则'}
+];
+const PREP_PRIORITY_TEXT = {must:'必带',do:'必做',suggest:'建议',optional:'按需'};
+const PREP_STORAGE_KEY = 'p007-thailand-prep-checks-v1';
+let prepChecks = {};
+try { prepChecks = JSON.parse(localStorage.getItem(PREP_STORAGE_KEY) || '{}'); } catch (_) { prepChecks = {}; }
+
+function updatePrepProgress(){
+  const total=PREP_ITEMS.length, done=PREP_ITEMS.filter(item=>prepChecks[item.id]).length;
+  const percent=total?Math.round(done/total*100):0;
+  const count=document.getElementById('prep-done-count'); if(count) count.textContent=done+'/'+total;
+  const fill=document.getElementById('prep-progress-fill'); if(fill) fill.style.width=percent+'%';
+  const note=document.getElementById('prep-progress-note'); if(note) note.textContent=done?'已完成 '+percent+'%；建议先清完红色“必带/必做”项目。':'先从护照、机票、酒店订单和 TDAC 开始。勾选只保存在当前浏览器。';
+}
+function renderPrep(){
+  const stats=document.getElementById('prep-stats');
+  const groups=document.getElementById('prep-groups');
+  if(!stats||!groups) return;
+  stats.replaceChildren(); groups.replaceChildren();
+  const statsData=[['must','必带','must'],['do','必做','do'],['suggest','建议','suggest'],['optional','按需','optional']];
+  for(const [key,label,klass] of statsData){const card=htmlEl('div',{class:'prep-stat '+klass});const n=htmlEl('strong');n.textContent=PREP_ITEMS.filter(item=>item.priority===key).length;const s=htmlEl('span');s.textContent=label;card.append(n,s);stats.append(card)}
+  for(const group of PREP_GROUPS){
+    const items=PREP_ITEMS.filter(item=>item.group===group.name); if(!items.length) continue;
+    const section=htmlEl('section',{class:'prep-group'});
+    const head=htmlEl('div',{class:'prep-group-head'});const h=htmlEl('h3');h.textContent=group.name;const note=htmlEl('span');note.textContent=group.note+' · '+items.length+' 项';head.append(h,note);section.append(head);
+    const list=htmlEl('div',{class:'prep-list'});
+    for(const item of items){
+      const row=htmlEl('label',{class:'prep-item'+(prepChecks[item.id]?' is-done':'')});
+      const input=htmlEl('input',{type:'checkbox'});input.checked=Boolean(prepChecks[item.id]);
+      const copy=htmlEl('span');const title=htmlEl('span',{class:'prep-item-title'});title.textContent=item.label;const detail=htmlEl('span',{class:'prep-item-detail'});detail.textContent=item.detail;copy.append(title,detail);
+      const when=htmlEl('span',{class:'prep-item-when '+item.priority});when.textContent=PREP_PRIORITY_TEXT[item.priority]+' · '+item.when;
+      input.addEventListener('change',()=>{prepChecks[item.id]=input.checked;row.classList.toggle('is-done',input.checked);try{localStorage.setItem(PREP_STORAGE_KEY,JSON.stringify(prepChecks));}catch(_){ }updatePrepProgress();});
+      row.append(input,copy,when);list.append(row);
+    }
+    section.append(list);groups.append(section);
+  }
+  updatePrepProgress();
+}
+
+function setView(view){
+  const itinerary=document.getElementById('itinerary-view');
+  const prep=document.getElementById('prep-section');
+  for(const button of document.querySelectorAll('.view-tabs button')) button.setAttribute('aria-pressed',button.dataset.view===view?'true':'false');
+  if(itinerary) itinerary.hidden=view!=='itinerary';
+  if(prep) prep.hidden=view!=='prep';
+  if(view==='prep') updatePrepProgress();
+}
+
+function el(name, attrs={}) { const node=document.createElementNS(NS,name); for(const [k,v] of Object.entries(attrs)) node.setAttribute(k,v); return node; }
+function htmlEl(name, attrs={}) { const node=document.createElement(name); for(const [k,v] of Object.entries(attrs)) node.setAttribute(k,v); return node; }
+function textLines(text) { return (text||'').split(/[；;]\s*/).map(x=>x.trim()).filter(Boolean); }
+function formatMapDescription(text) {
+  let depth=0, out='';
+  const chars=[...(text||'')];
+  for(let i=0;i<chars.length;i++){
+    const ch=chars[i];
+    if(ch==='（'||ch==='(') depth++;
+    out+=ch;
+    if(ch==='）'||ch===')') depth=Math.max(0,depth-1);
+    const next=chars[i+1]||'';
+    if(depth===0 && (ch==='：'||ch==='；'||ch==='。')&&next!=='\n'&&next!=='\r') out+='\n';
+  }
+  return out.replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function descriptionBlock(className,text){
+  const block=htmlEl('div',{class:className});
+  block.textContent=formatMapDescription(text)||'信息缺失';
+  return block;
+}
+function basePointsForDay(dayKey){ return DATA.points.filter(p=>!p.recommendation&&p.day===dayKey); }
+function recommendationDay(point){
+  const match=(point.name||'').match(/^D([1-8])/);
+  return match?'D'+match[1]:'other';
+}
+function projection() {
+  const pts = DATA.points;
+  const lats = pts.map(p=>p.lat), lons=pts.map(p=>p.lon);
+  const minLat=Math.min(...lats)-0.5, maxLat=Math.max(...lats)+0.5, minLon=Math.min(...lons)-1.5, maxLon=Math.max(...lons)+1.5;
+  const left=45, right=955, top=35, bottom=455;
+  const x=lon=>left+(lon-minLon)/(maxLon-minLon)*(right-left);
+  const y=lat=>bottom-(lat-minLat)/(maxLat-minLat)*(bottom-top);
+  return {x,y,left,right,top,bottom,minLat,maxLat,minLon,maxLon};
+}
+const P = projection();
+
+function drawOverview() {
+  svg.replaceChildren();
+  const bg=el('rect',{x:0,y:0,width:1000,height:500,fill:'var(--surface)'}); svg.append(bg);
+  for(let i=0;i<=5;i++){
+    const y=P.top+(P.bottom-P.top)*i/5, line=el('line',{x1:P.left,y1:y,x2:P.right,y2:y,class:'grid'}); svg.append(line);
+  }
+  for(let i=0;i<=6;i++){
+    const x=P.left+(P.right-P.left)*i/6, line=el('line',{x1:x,y1:P.top,x2:x,y2:P.bottom,class:'grid'}); svg.append(line);
+  }
+  const labels=[['香港',22.308,113.9185],['曼谷',13.69,100.55],['芭提雅',12.95,100.89],['格兰岛',12.923,100.786]];
+  for(const [label,lat,lon] of labels){const t=el('text',{x:P.x(lon)+7,y:P.y(lat)-8,class:'axis'});t.textContent=label;svg.append(t)}
+  for(const r of DATA.routes){
+    if(!r.coords.length) continue;
+    const d=r.coords.map((c,i)=>(i?'L':'M')+P.x(c[1]).toFixed(2)+' '+P.y(c[0]).toFixed(2)).join(' ');
+    const path=el('path',{d,class:'route','data-day':r.day,stroke:COLORS[r.day]||'var(--accent)'}); path.setAttribute('aria-label',r.name); svg.append(path);
+  }
+  for(const p of DATA.points){
+    const g=el('g',{'data-day':p.day||'other',class:'point-group'});
+    const c=el('circle',{cx:P.x(p.lon),cy:P.y(p.lat),r:p.recommendation?4:5,class:'point',fill:COLORS[p.day]||'var(--accent)'});
+    const title=el('title'); title.textContent=p.name; c.append(title); g.append(c);
+    const important=/香港|素万那普|Mytt|真理寺|Terminal 21|Tien Beach|东芭|蒂芙尼/.test(p.name);
+    if(important){const t=el('text',{x:P.x(p.lon)+8,y:P.y(p.lat)+4,class:'point-label'});t.textContent=p.name.replace(/（.*?）/g,'').replace(/D\d推荐｜/,'');g.append(t)}
+    svg.append(g);
+  }
+  for(const day of Object.keys(COLORS)){const s=htmlEl('span');const dot=htmlEl('i',{class:'dot',style:`background:${COLORS[day]}`});s.append(dot,document.createTextNode(day));legend.append(s)}
+}
+
+function makeCard(day){
+  const card=htmlEl('article',{class:'day-card',style:`--day-color:${COLORS[day.key]}`, 'data-day':day.key});
+  const head=htmlEl('div',{class:'day-head'}); const h=htmlEl('h3'); h.textContent=day.key+'｜'+day.title; const date=htmlEl('span',{class:'date'});date.textContent=day.date;head.append(h,date);card.append(head);
+  const route=htmlEl('div',{class:'route-name'});route.textContent=day.main_route;card.append(route);
+  const list=htmlEl('ol',{class:'timeline'});
+  const lines=textLines(day.main_description);
+  for(const line of lines){const li=htmlEl('li');li.textContent=line;list.append(li)}
+  if(!lines.length){const li=htmlEl('li');li.textContent=day.short;list.append(li)}
+  card.append(list);
+  const extra=htmlEl('div',{class:'extra'});const strong=htmlEl('strong');strong.textContent='当天地图点位：';const baseNames=basePointsForDay(day.key).map(p=>p.name);const recNames=DATA.points.filter(p=>p.recommendation&&recommendationDay(p)===day.key).map(p=>p.name);extra.append(strong,document.createTextNode(baseNames.join('、')||'无'));if(recNames.length)extra.append(document.createTextNode('；推荐层：'+recNames.join('、')));card.append(extra);
+  const hint=htmlEl('p',{class:'detail-hint'});hint.textContent='下方“Google 我的地图全量明细”会展开本日的每条路线说明和点位备注。';card.append(hint);
+  return card;
+}
+
+function makeRouteDetail(route){
+  const article=htmlEl('article',{class:'route-detail'});
+  const heading=htmlEl('h4');heading.textContent='🧭 '+route.name;article.append(heading);
+  const meta=htmlEl('div',{class:'detail-meta'});meta.textContent='地图路线节点：'+(route.coords?route.coords.length:0)+' 个';article.append(meta);
+  article.append(descriptionBlock('route-body',route.description));
+  return article;
+}
+function makePointDetail(point){
+  const article=htmlEl('article',{class:'point-detail'});
+  const heading=htmlEl('h5');heading.textContent='📍 '+point.name;article.append(heading);
+  const meta=htmlEl('div',{class:'detail-meta'});meta.textContent=(point.recommendation?'新增推荐图层｜':'地图点位｜')+point.folder;article.append(meta);
+  article.append(descriptionBlock('point-body',point.description));
+  return article;
+}
+function makeFullDay(day){
+  const section=htmlEl('section',{class:'full-day','data-day':day.key,style:'--day-color:'+COLORS[day.key]});
+  const heading=htmlEl('h3');heading.textContent=day.key+'｜'+day.title;section.append(heading);
+  const date=htmlEl('div',{class:'full-day-date'});date.textContent=day.date+'｜'+day.main_route;section.append(date);
+  const routeHeading=htmlEl('div',{class:'detail-heading'});routeHeading.textContent='路线说明（'+day.routes.length+' 条）';section.append(routeHeading);
+  const routeGrid=htmlEl('div',{class:'route-details'});for(const route of day.routes)routeGrid.append(makeRouteDetail(route));section.append(routeGrid);
+  const pointHeading=htmlEl('div',{class:'detail-heading'});const points=basePointsForDay(day.key);pointHeading.textContent='地图点位备注（'+points.length+' 个）';section.append(pointHeading);
+  const pointGrid=htmlEl('div',{class:'point-grid'});for(const point of points)pointGrid.append(makePointDetail(point));section.append(pointGrid);
+  return section;
+}
+function makeRecommendationPanel(){
+  const panel=htmlEl('section',{class:'recommendation-panel','data-recommendation-panel':'true'});
+  const heading=htmlEl('h3');heading.textContent='新增推荐图层（'+DATA.points.filter(p=>p.recommendation).length+' 个点位）';panel.append(heading);
+  const note=htmlEl('p');note.textContent='以下内容按地图原始“新增推荐”图层保留；日期筛选依据点位名称中的用途标签，仅用于查找，不代表已确认预约或必须执行。D2 暹罗商圈的店、甜品和拍照点会在选择 D2 时集中显示。';panel.append(note);
+  const grid=htmlEl('div',{class:'recommendation-grid'});for(const point of DATA.points.filter(p=>p.recommendation)){const item=makePointDetail(point);item.classList.add('recommendation-item');item.dataset.day=recommendationDay(point);grid.append(item)}panel.append(grid);
+  return panel;
+}
+function renderFullDetails(){
+  fullDetails.replaceChildren();
+  for(const day of DATA.days)fullDetails.append(makeFullDay(day));
+  fullDetails.append(makeRecommendationPanel());
+  const baseCount=DATA.points.filter(p=>!p.recommendation).length;
+  const recCount=DATA.points.filter(p=>p.recommendation).length;
+  fullCount.textContent='有效内容：'+DATA.routes.length+' 条路线 · '+(baseCount+recCount)+' 个点位（含推荐层 '+recCount+' 个）';
+}
+
+function setSelected(day){
+  selected=day;
+  for(const b of controls.querySelectorAll('button')) b.setAttribute('aria-pressed',b.dataset.day===day?'true':'false');
+  for(const route of svg.querySelectorAll('.route')) route.classList.toggle('is-active',day==='all'||route.dataset.day===day);
+  for(const group of svg.querySelectorAll('.point-group')) {const on=day==='all'||group.dataset.day===day;group.querySelector('.point').classList.toggle('is-muted',!on)}
+  for(const card of cards.querySelectorAll('.day-card')) card.hidden=!(day==='all'||card.dataset.day===day);
+  for(const section of fullDetails.querySelectorAll('.full-day')) section.hidden=!(day==='all'||section.dataset.day===day);
+  const recommendationItems=[...fullDetails.querySelectorAll('.recommendation-item')];
+  for(const item of recommendationItems)item.hidden=!(day==='all'||item.dataset.day===day);
+  const recommendationPanel=fullDetails.querySelector('[data-recommendation-panel]');
+  if(recommendationPanel)recommendationPanel.hidden=day!=='all'&&!recommendationItems.some(item=>!item.hidden);
+}
+
+const allBtn=htmlEl('button',{type:'button','data-day':'all','aria-pressed':'true'});allBtn.textContent='总览';allBtn.addEventListener('click',()=>setSelected('all'));controls.append(allBtn);
+for(const day of DATA.days){const b=htmlEl('button',{type:'button','data-day':day.key,'aria-pressed':'false'});b.textContent=day.key+' '+day.date;b.addEventListener('click',()=>setSelected(day.key));controls.append(b);cards.append(makeCard(day))}
+for(const button of document.querySelectorAll('.view-tabs button')) button.addEventListener('click',()=>setView(button.dataset.view));
+renderPrep(); renderFullDetails(); drawOverview(); setSelected('all'); setView('itinerary');
+</script>
+</body>
+</html>
